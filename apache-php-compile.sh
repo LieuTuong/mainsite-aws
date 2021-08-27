@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOWNLOAD_DIR=/source
+sudo mkdir $DOWNLOAD_DIR
 
 function compile_apache(){
 #tat selinux 
@@ -18,7 +20,7 @@ sudo yum install expat-devel pcre pcre-devel openssl-devel -y
 
 
 #Download the Apache source code along with apr and apr-util
-
+cd $DOWNLOAD_DIR
 sudo wget https://github.com/apache/httpd/archive/refs/tags/2.4.48.tar.gz -O httpd-2.4.48.tar.gz
 
 sudo wget https://github.com/apache/apr/archive/refs/tags/1.7.0.tar.gz -O apr-1.7.0.tar.gz
@@ -123,7 +125,7 @@ function php_compile(){
      sudo make install
 
 
-     sudo cp /home/centos/php-src-php-7.4.22/php.ini-development /usr/local/php/etc/php.ini
+     sudo cp $DOWNLOAD_DIR/php-src-php-7.4.22/php.ini-development /usr/local/php/etc/php.ini
 
      #Add PHP to $PATH
      sudo echo 'pathmunge /usr/local/php/bin' > /etc/profile.d/php.sh
@@ -167,7 +169,7 @@ EOF
      
 
      # ------ Them dich vu systemd
-     sudo cp /home/centos/php-src-php-7.4.22/sapi/fpm/php-fpm.service /etc/systemd/system
+     sudo cp $DOWNLOAD_DIR/php-src-php-7.4.22/sapi/fpm/php-fpm.service /etc/systemd/system
      # Chinh lai quyen de dc ghi file log
      sudo sed -i 's/ProtectSystem=full/ProtectSystem=false/' /etc/systemd/system/php-fpm.service
 
